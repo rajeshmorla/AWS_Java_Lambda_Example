@@ -34,10 +34,10 @@ Note: If you are not comfortable with the names, kinldy change thise from 'AppCo
 After all done, you are ready to test the service with any of the REST Client (Postman, SwaggerBuilder, etc,.)
 
 Try to invoke your API Endpoint URL as follows:
-URI: https://ai01ajt3kg.execute-api.ap-southeast-1.amazonaws.com/incedo/api/imageprocess?filename=rajeshDP&mobile=+919884239XXX
-Method: POST
-Headers: Content-Type=image/jpeg and X-Incedo-Security-Token=12345
-Query Params: filename = xyz, mobile=+919494495XXX (Dont forget to give proper country code, which is manditory)
-body: Binary file(Image)
+1. URI: https://ai01ajt3kg.execute-api.ap-southeast-1.amazonaws.com/incedo/api/imageprocess?filename=rajeshDP&mobile=+919884239XXX
+2. Method: POST
+3. Headers: Content-Type=image/jpeg and X-Incedo-Security-Token=12345
+4. Query Params: filename = xyz, mobile=+919494495XXX (Dont forget to give proper country code, which is manditory)
+5. body: Binary file(Image)
 
 Note: Mobile number is an optional param, only if you wanna recieve acknowledge SMS
