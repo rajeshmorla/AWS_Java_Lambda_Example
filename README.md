@@ -40,4 +40,4 @@ Try to invoke your API Endpoint URL as follows:
 4. Query Params: filename = xyz, mobile=+919494495XXX (Dont forget to give proper country code, which is manditory)
 5. body: Binary file(Image)
 
-Note: Mobile number is an optional param, only if you wanna recieve acknowledge SMS
+Note: Mobile number is an optional param, only if you wanna recieve acknowledge(Image URL to mobile number directly) SMS
