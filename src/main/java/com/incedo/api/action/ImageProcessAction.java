@@ -3,6 +3,8 @@ package com.incedo.api.action;
 import java.io.File;
 
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.incedo.api.aws.dyndb.AmazonDynDBAPI;
 import com.incedo.api.aws.s3.AmazonS3API;
 import com.incedo.api.aws.sns.AmazonSNSAPI;
@@ -15,6 +17,7 @@ public class ImageProcessAction
 {
 	public static HandlerResponse invokeAction(LambdaLogger logger, HandlerRequest handlerRequest)
 	{
+		Gson gson = new Gson();
 		HandlerResponse handlerResponse = new HandlerResponse();
 		try
 		{
@@ -32,15 +35,21 @@ public class ImageProcessAction
             
             //Send the acknowledge SMS
 			if(null != handlerRequest.getMobile())
-				AmazonSNSAPI.sendMesssage(handlerRequest.getMobile(), "Hi, Your Image Processed Successfully to S3 Bucket and DynamoDB !", logger);     
+				AmazonSNSAPI.sendMesssage(handlerRequest.getMobile(), "Hi, Image URL: "+iMetadata.getLink(), logger);     
                         
+			JsonObject body = new JsonObject();
+			body.addProperty("link", iMetadata.getLink());
+			
+			
+			
             handlerResponse.setStatusCode(200);
-            handlerResponse.setMessage("Image Processed Succefully !");
+            //handlerResponse.setBase64Encoded(false);
+            handlerResponse.setBody(body.toString());
+            handlerResponse.setHeaders(new JsonObject());
 		}
 		catch(Exception e)
 		{            
             handlerResponse.setStatusCode(500);
-            handlerResponse.setErrorMessage("Error while processing image...");
     		return handlerResponse;
 		}		
 		return handlerResponse;

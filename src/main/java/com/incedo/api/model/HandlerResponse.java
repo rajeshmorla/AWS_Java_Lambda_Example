@@ -1,36 +1,39 @@
 package com.incedo.api.model;
 
+import com.google.gson.JsonObject;
+
 public class HandlerResponse 
 {
+	private boolean isBase64Encoded;
 	private int statusCode;
-	private String message;
-	private String data;
-	private String errorMessage;
-	
-	
+	private String body;
+	private JsonObject headers;
+	public boolean isBase64Encoded() {
+		return isBase64Encoded;
+	}
+	public void setBase64Encoded(boolean isBase64Encoded) {
+		this.isBase64Encoded = isBase64Encoded;
+	}
 	public int getStatusCode() {
 		return statusCode;
 	}
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
-	public String getMessage() {
-		return message;
+	public String getBody() {
+		return body;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setBody(String body) {
+		this.body = body;
 	}
-	public String getData() {
-		return data;
+	public JsonObject getHeaders() {
+		return headers;
 	}
-	public void setData(String data) {
-		this.data = data;
+	public void setHeaders(JsonObject headers) {
+		this.headers = headers;
 	}
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+	
+	
+	
 	
 }

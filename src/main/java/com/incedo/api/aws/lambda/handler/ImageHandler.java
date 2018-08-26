@@ -35,10 +35,23 @@ public class ImageHandler implements RequestStreamHandler {
     		logger.log("Full Proxy Request:: "+jsonRequest);
 
     		//Preparing Request from API Gateway Proxy request params
-    		HandlerRequest handlerRequest = RequestHelper.processRequestParams(jsonRequest);    		
-    		
+    		HandlerRequest handlerRequest = RequestHelper.processRequestParams(jsonRequest);
+    		    		
     		if(null != handlerRequest)
     		{
+    			//Authorization
+        		if(!handlerRequest.getSecurityToken().equals(AppConstants.SECURITY_TOKEN))
+        		{
+
+        			response = new HandlerResponse();
+        			response.setStatusCode(200);
+        			response.setBody("Invalid Security Token, Authentication Failed !");
+        			response.setHeaders(new JsonObject());
+        			
+        			IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
+        		}
+        		
+        		
     			//Action invocations
         		if(handlerRequest.getResource().equals(AppConstants.IMAGE_PROCESS))
         			response = ImageProcessAction.invokeAction(logger, handlerRequest);    		
@@ -54,18 +67,22 @@ public class ImageHandler implements RequestStreamHandler {
     		{
     			response = new HandlerResponse();
     			response.setStatusCode(500);
-        		response.setErrorMessage("Error while processing image...");
+    			response.setBody("Invalid Request / Error while processing image...");
+    			response.setHeaders(new JsonObject());
         		IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
     		}    		            
     	}
     	catch(Exception e)
     	{  
     		response = new HandlerResponse();
-    		response.setStatusCode(500);
-    		response.setErrorMessage("Error while processing image...");
+			response.setStatusCode(500);
+			response.setBody("Error while processing image...");
+			response.setHeaders(new JsonObject());
     		IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
     	}
-
+    	
+    	logger.log("Response:: "+gson.toJson(response, HandlerResponse.class));
+    	
     	IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
     }
     
