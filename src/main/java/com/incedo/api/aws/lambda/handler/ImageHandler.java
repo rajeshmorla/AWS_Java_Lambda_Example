@@ -27,6 +27,7 @@ public class ImageHandler implements RequestStreamHandler {
     	JsonParser parser = new JsonParser(); 
     	Gson gson = new Gson();    	    	
 		HandlerResponse response = null;
+		JsonObject body = new JsonObject();
     	
     	try
     	{
@@ -42,10 +43,11 @@ public class ImageHandler implements RequestStreamHandler {
     			//Authorization
         		if(!handlerRequest.getSecurityToken().equals(AppConstants.SECURITY_TOKEN))
         		{
+        			body.addProperty("errorMessage", "Invalid Security Token, Authentication Failed !");        			
 
         			response = new HandlerResponse();
         			response.setStatusCode(200);
-        			response.setBody("Invalid Security Token, Authentication Failed !");
+        			response.setBody(body.toString());
         			response.setHeaders(new JsonObject());
         			
         			IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
@@ -65,18 +67,22 @@ public class ImageHandler implements RequestStreamHandler {
     		}
     		else
     		{
+    			body.addProperty("errorMessage", "Invalid Request / Error while processing image...");
+    			
     			response = new HandlerResponse();
     			response.setStatusCode(500);
-    			response.setBody("Invalid Request / Error while processing image...");
+    			response.setBody(body.toString());
     			response.setHeaders(new JsonObject());
         		IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
     		}    		            
     	}
     	catch(Exception e)
     	{  
-    		response = new HandlerResponse();
+    		body.addProperty("errorMessage", "Invalid Request / Error while processing image...");
+			
+			response = new HandlerResponse();
 			response.setStatusCode(500);
-			response.setBody("Error while processing image...");
+			response.setBody(body.toString());
 			response.setHeaders(new JsonObject());
     		IOUtils.write(gson.toJson(response, HandlerResponse.class), output);
     	}
